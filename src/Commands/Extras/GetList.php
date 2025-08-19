@@ -6,12 +6,17 @@ use MODX\CloudCLI\Commands\Command;
 use MODX\CloudCLI\Services\Extras;
 use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetList extends Command
 {
-    public function __invoke(OutputInterface $output, $verbose = false, $updatesOnly = false, $limit = 20, $offset = 0): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+        $verbose = $input->getOption('verbose');
+        $updatesOnly = $input->getOption('updates-only');
+        $limit = $input->getOption('limit') ?? 20;
+        $offset = $input->getOption('offset') ?? 0;
         $packages = new Extras($this->modx);
         if ($verbose) {
             $progressIndicator = new ProgressIndicator($output);

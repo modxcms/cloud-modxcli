@@ -9,11 +9,16 @@
       ]
     }
   },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
   "require": {
     "php": ">=7.4",
     "mnapoli/silly": "^1.9",
-    "php-di/php-di": "^7.0",
     "symfony/finder": "^5.4",
+    "php-di/php-di": "^6.4",
     "ext-json": "*"
   },
   "require-dev": {

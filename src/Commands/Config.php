@@ -3,17 +3,16 @@
 namespace MODX\CloudCLI\Commands;
 
 use MODX\CloudCLI\Services\MODX;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Config
 {
-    public function __invoke(
-        OutputInterface $output,
-        $verbose = false,
-        $corePath = null,
-        $configKey = null
-    ): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+        $verbose = $input->getOption('verbose');
+        $corePath = $input->getOption('core-path');
+        $configKey = $input->getOption('config-key');
         $modx = new MODX(false);
         if ($corePath) {
             if ($verbose) {

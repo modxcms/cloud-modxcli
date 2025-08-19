@@ -3,14 +3,17 @@
 namespace MODX\CloudCLI\Commands\Plugins;
 
 use MODX\CloudCLI\Commands\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Plugin extends Command
 {
     private $plugin;
 
-    private function prepare(OutputInterface $output, $nameOrID = null, $verbose = false)
+    private function prepare(InputInterface $input, OutputInterface $output): bool
     {
+        $nameOrID = $input->getArgument('nameOrID');
+        $verbose = $input->getOption('verbose');
         if (empty($nameOrID)) {
             $output->writeln("No plugin name or ID provided.");
             return false;
@@ -36,9 +39,10 @@ class Plugin extends Command
         return true;
     }
 
-    public function enable(OutputInterface $output, $nameOrID = null, $verbose = false)
+    public function enable(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        $verbose = $input->getOption('verbose');
+        if (!$this->prepare($input, $output)) {
             return;
         }
         if (!$this->plugin->get('disabled')) {
@@ -56,9 +60,10 @@ class Plugin extends Command
         }
     }
 
-    public function disable(OutputInterface $output, $nameOrID = null, $verbose = false)
+    public function disable(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        $verbose = $input->getOption('verbose');
+        if (!$this->prepare($input, $output)) {
             return;
         }
         if ($this->plugin->get('disabled')) {

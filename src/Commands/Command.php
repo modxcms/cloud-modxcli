@@ -3,6 +3,7 @@
 namespace MODX\CloudCLI\Commands;
 
 use MODX\CloudCLI\Services\MODX;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Command
@@ -20,7 +21,7 @@ class Command
         }
     }
 
-    public function __invoke(OutputInterface $output): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln("Invoking Command.");
     }

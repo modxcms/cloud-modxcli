@@ -5,12 +5,15 @@ namespace MODX\CloudCLI\Commands\Extras;
 use MODX\CloudCLI\Commands\Command;
 use MODX\CloudCLI\Services\Extras;
 use Symfony\Component\Console\Helper\ProgressIndicator;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Upgrade extends Command
 {
-    public function __invoke(OutputInterface $output, $verbose = false, $clean = false): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+        $verbose = $input->getOption('verbose');
+        $clean = $input->getOption('clean');
         $packages = new Extras($this->modx);
         if ($verbose) {
             $progressIndicator = new ProgressIndicator($output);

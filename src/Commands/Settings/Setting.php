@@ -3,21 +3,19 @@
 namespace MODX\CloudCLI\Commands\Settings;
 
 use MODX\CloudCLI\Commands\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Setting extends Command
 {
-    public function __invoke(
-        OutputInterface
-        $output,
-        $verbose = false,
-        $key = null,
-        $value = null,
-        $namespace = 'core',
-        $area = 'default',
-        $new = false
-    ): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+        $verbose = $input->getOption('verbose');
+        $key = $input->getOption('key');
+        $area = $input->getOption('area') ?? 'default';
+        $namespace = $input->getOption('namespace') ?? 'core';
+        $value = $input->getOption('value');
+        $new = $input->getOption('new');
         $setting = $this->modx->getObject('modSystemSetting', ['key' => $key]);
         if (empty($setting)) {
             if (!$new) {

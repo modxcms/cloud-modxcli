@@ -5,20 +5,19 @@ namespace MODX\CloudCLI\Commands\Settings;
 use MODX\CloudCLI\Commands\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetList extends Command
 {
-    public function __invoke(
-        OutputInterface $output,
-        $verbose = false,
-        $key = null,
-        $namespace = null,
-        $area = null,
-        $limit = 20,
-        $offset = 0
-    ): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+        $verbose = $input->getOption('verbose');
+        $key = $input->getOption('key');
+        $area = $input->getOption('area');
+        $namespace = $input->getOption('namespace');
+        $limit = $input->getOption('limit') ?? 20;
+        $offset = $input->getOption('offset') ?? 0;
         if ($verbose) {
             $output->writeln("Getting settings.");
         }

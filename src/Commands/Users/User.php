@@ -3,6 +3,7 @@
 namespace MODX\CloudCLI\Commands\Users;
 
 use MODX\CloudCLI\Commands\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class User extends Command
@@ -11,8 +12,10 @@ class User extends Command
     private $user;
 
 
-    private function prepare(OutputInterface $output, $nameOrID = null, $verbose = false)
+    private function prepare(InputInterface $input, OutputInterface $output): bool
     {
+        $nameOrID = $input->getArgument('nameOrID');
+        $verbose = $input->getOption('verbose');
         if (empty($nameOrID)) {
             $output->writeln("No user name or ID provided.");
             return false;
@@ -38,9 +41,9 @@ class User extends Command
         return true;
     }
 
-    public function activate(OutputInterface $output, $nameOrID = null, $verbose = false)
+    public function activate(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        if (!$this->prepare($input, $output)) {
             return;
         }
         if ($this->user->get('active')) {
@@ -55,9 +58,9 @@ class User extends Command
         }
     }
 
-    public function deactivate(OutputInterface $output, $nameOrID = null, $verbose = false)
+    public function deactivate(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        if (!$this->prepare($input, $output)) {
             return;
         }
         if (!$this->user->get('active')) {
@@ -72,9 +75,9 @@ class User extends Command
         }
     }
 
-    public function block(OutputInterface $output, $nameOrID = null, $verbose = false)
+    public function block(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        if (!$this->prepare($input, $output)) {
             return;
         }
         $profile = $this->user->getOne('Profile');
@@ -94,9 +97,9 @@ class User extends Command
         }
     }
 
-    public function unblock(OutputInterface $output, $nameOrID = null, $verbose = false)
+    public function unblock(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        if (!$this->prepare($input, $output)) {
             return;
         }
         $profile = $this->user->getOne('Profile');
@@ -117,9 +120,12 @@ class User extends Command
         }
     }
 
-    public function password(OutputInterface $output, $nameOrID = null, $password = null, $reset = false, $verbose = false)
+    public function password(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->prepare($output, $nameOrID, $verbose)) {
+        $verbose = $input->getOption('verbose');
+        $reset = $input->getOption('reset');
+        $password = $input->getOption('password');
+        if (!$this->prepare($input, $output)) {
             return;
         }
         if ($reset) {
@@ -149,11 +155,12 @@ class User extends Command
         }
     }
 
-    public function create(OutputInterface $output, $username = null, $password = null, $email = null, $verbose = false)
+    public function create(InputInterface $input, OutputInterface $output): void
     {
-        if ($verbose) {
-            $output->writeln("Creating user.");
-        }
+        $verbose = $input->getOption('verbose');
+        $email = $input->getOption('email');
+        $username = $input->getOption('username');
+        $password = $input->getOption('password');
         $user = $this->modx->newObject('modUser');
         if (empty($email)) {
             $output->writeln("No email provided.");

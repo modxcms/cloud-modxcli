@@ -4,20 +4,19 @@ namespace MODX\CloudCLI\Commands\Users;
 
 use MODX\CloudCLI\Commands\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetList extends Command
 {
-    public function __invoke(
-        OutputInterface $output,
-        $verbose = false,
-        $activeOnly = false,
-        $sort = 'username',
-        $username = null,
-        $limit = 20,
-        $offset = 0
-    ): void
+    public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+        $verbose = $input->getOption('verbose');
+        $activeOnly = $input->getOption('active-only');
+        $username = $input->getOption('username');
+        $limit = $input->getOption('limit') ?? 20;
+        $offset = $input->getOption('offset') ?? 0;
+        $sort = $input->getOption('sort') ?? 'id';
         if (!in_array($sort, ['username', 'id'])) {
             $output->writeln("Invalid sort option.");
             return;
