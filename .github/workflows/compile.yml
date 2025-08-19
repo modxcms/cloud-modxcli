@@ -1,0 +1,51 @@
+name: Compile
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get Branch Name
+        uses: nelonoel/branch-name@v1.0.1
+
+      - run: echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: mbstring, curl, dom, gd, zlib, json, simplexml, pdo, xml, zip, xmlwriter, fileinfo
+          ini-values: phar.readonly=Off
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-dev --optimize-autoloader
+
+      - name: Compile Project
+        run: php bin/compile
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: modx-${{ env.BRANCH_NAME }}
+          path: modx.phar
+          overwrite: true
+          if-no-files-found: error
+
+
+

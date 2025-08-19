@@ -1,0 +1,22 @@
+{
+  "name": "modx/cloudcli",
+  "description": "CLI helper tool for working with MODX Revolution in MODX Cloud",
+  "version": "0.0.1-beta",
+  "autoload": {
+    "psr-4": {
+      "MODX\\CloudCLI\\": [
+        "src/"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "mnapoli/silly": "^1.9",
+    "php-di/php-di": "^7.0",
+    "symfony/finder": "^5.4",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "modx/revolution": "^3.1"
+  }
+}
