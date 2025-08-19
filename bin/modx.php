@@ -61,7 +61,13 @@ $app->command('settings:list [key] [--namespace=] [--area=] [--limit=] [--offset
     \MODX\CloudCLI\Commands\Settings\GetList::class,
     ['sL']
 )->defaults(['limit' => 20, 'offset' => 0])
-    ->descriptions('List all settings');
+    ->descriptions('List all system settings');
+
+$app->command('settings:set [key] [value] [--namespace=] [--area=] [--new]',
+    \MODX\CloudCLI\Commands\Settings\Setting::class,
+    ['sS']
+)->defaults(['namespace' => 'core', 'area' => 'default'])
+    ->descriptions('Set the value of a system setting');
 
 $app->command('users:list [--active-only] [--sort=] [--username=] [--limit=] [--offset=]',
     \MODX\CloudCLI\Commands\Users\GetList::class,
