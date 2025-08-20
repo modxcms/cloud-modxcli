@@ -2,7 +2,7 @@
 
 use Composer\InstalledVersions;
 use DI\ContainerBuilder;
-use Silly\Application;
+use MODX\CloudCLI\Application;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
