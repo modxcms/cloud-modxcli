@@ -12,7 +12,7 @@ class Plugin extends Command
 
     private function prepare(InputInterface $input, OutputInterface $output): bool
     {
-        $nameOrID = $input->getArgument('nameOrID');
+        $nameOrID = $input->getArgument('name-or-id');
         $verbose = $input->getOption('verbose');
         if (empty($nameOrID)) {
             $output->writeln("No plugin name or ID provided.");

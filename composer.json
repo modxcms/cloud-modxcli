@@ -1,7 +1,7 @@
 {
   "name": "modx/cloudcli",
   "description": "CLI helper tool for working with MODX Revolution in MODX Cloud",
-  "version": "0.0.1-beta",
+  "version": "0.0.2-beta",
   "autoload": {
     "psr-4": {
       "MODX\\CloudCLI\\": [
