@@ -57,6 +57,19 @@ $app->command('refresh',
     ['r']
 )->descriptions('Refresh the MODX cache');
 
+
+$app->command('search:find [query] 
+    [--chunks] [--chunk-fields=] 
+    [--plugins] [--plugin-fields=]
+    [--resources] [--resource-fields=] 
+    [--snippets] [--snippet-fields=]
+    [--templates] [--template-fields=]
+    [--limit=] [--offset=]',
+    \MODX\CloudCLI\Commands\Search\Find::class,
+    ['sF']
+)->defaults(['limit' => 20, 'offset' => 0])
+    ->descriptions('Search for a string');
+
 $app->command('settings:list [key] [--namespace=] [--area=] [--limit=] [--offset=]',
     \MODX\CloudCLI\Commands\Settings\GetList::class,
     ['sL']
