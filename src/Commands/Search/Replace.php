@@ -7,98 +7,101 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Find extends Command
+class Replace extends Command
 {
     private $maxLength = 100;
     public function __invoke(InputInterface $input, OutputInterface $output): void
     {
+
         $string = $input->getArgument('query');
 
-        if ($this->checkString($string)) {
+        $replace = $input->getOption('replace');
+
+        if ($this->checkString($string) || $this->checkString($replace)) {
             $output->writeln("String is not valid.");
             return;
         }
 
         if ($input->getOption('resources'))
         {
-            $this->searchResources($input, $output);
+            $this->replaceResources($input, $output);
         }
 
         if ($input->getOption('chunks'))
         {
-            $this->searchChunks($input, $output);
+            $this->replaceChunks($input, $output);
         }
 
         if ($input->getOption('snippets'))
         {
-            $this->searchSnippets($input, $output);
+            $this->replaceSnippets($input, $output);
         }
 
         if ($input->getOption('templates'))
         {
-            $this->searchTemplates($input, $output);
+            $this->replaceTemplates($input, $output);
         }
 
         if ($input->getOption('plugins'))
         {
-            $this->searchPlugins($input, $output);
+            $this->replacePlugins($input, $output);
         }
 
         if ($input->getOption('tvs'))
         {
-            $this->searchTVs($input, $output);
+            $this->replaceTVs($input, $output);
         }
     }
 
-    public function searchResources(InputInterface $input, OutputInterface $output): void
+    public function replaceResources(InputInterface $input, OutputInterface $output): void
     {
         $class = 'modResource';
         $fields = $input->getOption('resource-fields') ??
             'pagetitle,longtitle,description,introtext,content';
-        $this->search($input, $output, $class, $fields);
+        $this->replace($input, $output, $class, $fields);
     }
 
-    public function searchChunks(InputInterface $input, OutputInterface $output): void
+    public function replaceChunks(InputInterface $input, OutputInterface $output): void
     {
         $class = 'modChunk';
         $fields = $input->getOption('chunk-fields') ??
             'name,snippet';
-        $this->search($input, $output, $class, $fields);
+        $this->replace($input, $output, $class, $fields);
     }
 
-    public function searchTemplates(InputInterface $input, OutputInterface $output): void
+    public function replaceTemplates(InputInterface $input, OutputInterface $output): void
     {
         $class = 'modTemplate';
         $fields = $input->getOption('template-fields') ??
             'templatename,content';
-        $this->search($input, $output, $class, $fields);
+        $this->replace($input, $output, $class, $fields);
     }
 
-    public function searchSnippets(InputInterface $input, OutputInterface $output): void
+    public function replaceSnippets(InputInterface $input, OutputInterface $output): void
     {
         $class = 'modSnippet';
         $fields = $input->getOption('snippet-fields') ??
             'name,snippet';
-        $this->search($input, $output, $class, $fields);
+        $this->replace($input, $output, $class, $fields);
     }
 
-    public function searchPlugins(InputInterface $input, OutputInterface $output): void
+    public function replacePlugins(InputInterface $input, OutputInterface $output): void
     {
         $class = 'modPlugin';
         $fields = $input->getOption('plugin-fields') ??
             'name,plugincode';
-        $this->search($input, $output, $class, $fields);
+        $this->replace($input, $output, $class, $fields);
     }
 
-    public function searchTVs(InputInterface $input, OutputInterface $output): void
+    public function replaceTVs(InputInterface $input, OutputInterface $output): void
     {
         $class = 'modTemplateVar';
         $fields = $input->getOption('tv-fields') ??
             'name,type,input_properties,output_properties,elements,default_text';
-        $this->search($input, $output, $class, $fields);
+        $this->replace($input, $output, $class, $fields);
     }
 
-    private function search(InputInterface $input, OutputInterface $output, string $class, string $fields): void
+    private function replace(InputInterface $input, OutputInterface $output, string $class, string $fields): void
     {
         $classFormatted = $class;
         if (empty($this->modx->map[$class])) {
@@ -109,9 +112,9 @@ class Find extends Command
             $class = 'MODX\\Revolution\\'.$class;
         }
         $string = $input->getArgument('query');
-        $limit = $input->getOption('limit') ?? 20;
-        $offset = $input->getOption('offset') ?? 0;
+        $replace = $input->getOption('replace');
         $verbose = $input->getOption('verbose');
+        $regex = $input->getOption('regex');
         $fields = explode(',', $fields);
         $this->maxLength = 100 / count($fields);
         if (in_array('id', $fields)) {
@@ -124,10 +127,12 @@ class Find extends Command
         }
         if ($verbose) {
             $output->writeln("Searching $classFormatted for string: $string");
-            $output->writeln("Searching fields: ".implode(', ', $fields));
+            $output->writeln("Replacing fields: ".implode(', ', $fields));
         }
-        $c = $this->modx->newQuery($class);
+        $c = [];
+        $set = [];
         $skipped = [];
+        $regex_replace = preg_replace('/(\\\)/', '\\\\\\\\', $replace);
         foreach ($fields as $field) {
             if (
                 !isset($this->modx->map[$class]['fieldMeta'][$field])
@@ -136,39 +141,28 @@ class Find extends Command
                 $skipped[] = $field;
                 continue;
             }
-            $c->where(['OR:'.$field.':LIKE' => '%'.$string.'%']);
+            $c['OR:'.$field.':LIKE'] = '%'.$string.'%';
+            if (!empty($regex)) {
+                $set[$field] = "REGEXP_REPLACE($field, '$regex', '$regex_replace')";
+            } else {
+                $set[$field] = "REPLACE($field, '$string', '$replace')";
+            }
         }
         if ($verbose && !empty($skipped))
         {
             $output->writeln("Skipped non string fields: ".implode(', ', $skipped));
         }
         $total = $this->modx->getCount($class, $c);
-        $c->limit($limit, $offset);
-        $resources = $this->modx->getCollection($class, $c);
+        $updated = $this->modx->updateCollection($class, $set, $c);
 
-        $table = new Table($output);
-
-        $header = ['ID'];
-        foreach ($fields as $field) {
-            $header[] = $field;
-        }
-
-        $table->setHeaders($header);
-        foreach ($resources as $resource) {
-            $row = [$resource->get('id')];
-            foreach ($fields as $field) {
-                $row[] = $this->formatField($resource->get($field), $string);
-            }
-            $table->addRow($row);
-        }
-        $table->render();
         if ($total == 0 ) {
             $output->writeln("No $classFormatted Found.");
         }
         if ($verbose && $total > 0) {
-            $output->writeln("Total Matching $classFormatted(s): ".$total);
-        } else if ($total > $limit) {
-            $output->writeln("$offset-$limit of $total");
+            $output->writeln("Total Matching $classFormatted(s): $total");
+            $output->writeln("Total Updated $classFormatted(s): $updated");
+        } elseif ($updated > 0) {
+            $output->writeln("Updated $updated $classFormatted(s)");
         }
     }
 

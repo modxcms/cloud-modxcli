@@ -16,29 +16,31 @@ Options:
 
 Available commands:
 
-| Command          | Description                                     |
-|------------------|-------------------------------------------------|
-| completion       | Dump the shell completion script                |
-| config           | [c] Configure connection to MODX                |
-| help             | Display help for a command                      |
-| list             | List commands                                   |
-| refresh          | [r] Refresh the MODX cache                      |
+| Command          | Description                                |
+|------------------|--------------------------------------------|
+| completion       | Dump the shell completion script           |
+| config           | [c] Configure connection to MODX           |
+| help             | Display help for a command                 |
+| list             | List commands                              |
+| refresh          | [r] Refresh the MODX cache                 |
 | **extras**       |
-| extras:clean     | [eC] Cleans all extras that are not installed.  |
-| extras:list      | [eL] List all installed extras.                 |
-| extras:upgrade   | [eU] Upgrades all extras to the latest version. |
+| extras:clean     | Cleans all extras that are not installed.  |
+| extras:list      | List all installed extras.                 |
+| extras:upgrade   | Upgrades all extras to the latest version. |
 | **plugins**      |
-| plugins:disable  | [pD] Disable a plugin                           |
-| plugins:enable   | [pE] Enable a plugin                            |
-| plugins:list     | [pL] List plugins                               |
+| plugins:disable  | Disable a plugin                           |
+| plugins:enable   | Enable a plugin                            |
+| plugins:list     | List plugins                               |
+| **search**       |
+| search:find      | Search for a string                        |
 | **settings**     |
-| settings:list    | [sL] List all system settings                   |
-| settings:set     | [sU] Set the value of a system setting          |
+| settings:list    | List all system settings                   |
+| settings:set     | Set the value of a system setting          |
 | **users**        |
-| users:activate   | [uA] Activate a user                            |
-| users:block      | [uB] Block a user                               |
-| users:create     | [uC] Create a new admin user                    |
-| users:deactivate | [uD] Deactivate a user                          |
-| users:list       | [uL] Refresh the MODX cache                     |
-| users:password   | [uP] Change a user's password                   |
-| users:unblock    | [uU] Unblock a user                             |
+| users:activate   | Activate a user                            |
+| users:block      | Block a user                               |
+| users:create     | Create a new admin user                    |
+| users:deactivate | Deactivate a user                          |
+| users:list       | Refresh the MODX cache                     |
+| users:password   | Change a user's password                   |
+| users:unblock    | Unblock a user                             |
