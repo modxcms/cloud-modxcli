@@ -20,6 +20,11 @@ $app->command('config [--core-path=] [--config-key=]',
     ['c']
 )->descriptions('Configure connection to MODX');
 
+$app->command('about',
+    \MODX\CloudCLI\Commands\About::class,
+    ['a']
+)->descriptions('Information about this MODX install');
+
 $app->command('extras:upgrade [--clean]',
     \MODX\CloudCLI\Commands\Extras\Upgrade::class
 )->descriptions('Upgrades all extras to the latest version.');
@@ -77,12 +82,12 @@ $app->command('search:replace [query]
 )->defaults(['limit' => 20, 'offset' => 0, 'regex' => null])
     ->descriptions('Search for a string');
 
-$app->command('settings:list [key] [--namespace=] [--area=] [--limit=] [--offset=]',
+$app->command('settings:list [key] [--namespace=] [--area=] [--context=] [--limit=] [--offset=]',
     \MODX\CloudCLI\Commands\Settings\GetList::class
 )->defaults(['limit' => 20, 'offset' => 0])
     ->descriptions('List all system settings');
 
-$app->command('settings:set [key] [value] [--namespace=] [--area=] [--new]',
+$app->command('settings:set [key] [value] [--namespace=] [--area=] [--context=] [--new]',
     \MODX\CloudCLI\Commands\Settings\Setting::class
 )->defaults(['namespace' => 'core', 'area' => 'default'])
     ->descriptions('Set the value of a system setting');

@@ -33,6 +33,7 @@ Available commands:
 | plugins:list     | List plugins                               |
 | **search**       |
 | search:find      | Search for a string                        |
+| search:replace   | Search and replace a string                |
 | **settings**     |
 | settings:list    | List all system settings                   |
 | settings:set     | Set the value of a system setting          |
