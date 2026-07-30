@@ -40,18 +40,17 @@ class About extends Command
         $data['database_server'] = $this->modx->getOption('host');
         $data['now'] = date('M d, Y h:i A', time());
         $data['table_prefix'] = $this->modx->getOption('table_prefix');
-        $data['error_log'] = '-';
-        if (file_exists(MODX_CORE_PATH . 'cache/logs/error.log')) {
+        $data['error_log'] = $this->getCache('error_log');
+        if (empty($data['error_log']) && file_exists(MODX_CORE_PATH . 'cache/logs/error.log')) {
             $logSize = filesize(MODX_CORE_PATH . 'cache/logs/error.log');
-            $sz = 'BKMGTP';
-            $factor = (int) floor((strlen($logSize) - 1) / 3);
-            if ($factor) {
-                $data['error_log'] = sprintf("%.2f", $logSize / (1024 ** $factor)) . @$sz[$factor];
-            } else {
-                $data['error_log'] = $logSize.'B';
-            }
+            $data['error_log'] = $this->formatBytes($logSize);
+            $this->setCache('error_log', $data['error_log']);
+        } elseif (empty($data['error_log'])) {
+            $data['error_log'] = '-';
         }
+        $data['install_size'] = $this->formatBytes($this->getInstallSize());
         $data['active_users'] = $this->modx->getCount('modUser', ['active' => 1]);
+
         $table = new Table($output);
 
         $headers = ['Key', 'Value'];
@@ -63,5 +62,36 @@ class About extends Command
             $table->addRow([$k, $v]);
         }
         $table->render();
+    }
+
+    private function getInstallSize(): int
+    {
+        $cache = $this->getCache('install_size');
+        if ($cache) {
+            return $cache;
+        }
+        $total = 0;
+        if (!defined('MODX_BASE_PATH')) {
+            define('MODX_BASE_PATH', '/www/');
+        }
+        $path = realpath(MODX_BASE_PATH);
+        if($path !== false && $path !== '' && file_exists($path)){
+            foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object){
+                $total += $object->getSize();
+            }
+        }
+        $this->setCache('install_size', $total);
+        return $total;
+    }
+
+    private function formatBytes(int $bytes): string
+    {
+        $sz = 'BKMGTP';
+        $factor = (int) floor((strlen($bytes) - 1) / 3);
+        if ($factor) {
+            return sprintf("%.2f", $bytes / (1024 ** $factor)) . @$sz[$factor];
+        }
+
+        return $bytes.'B';
     }
 }
