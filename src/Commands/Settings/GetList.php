@@ -18,10 +18,15 @@ class GetList extends Command
         $namespace = $input->getOption('namespace');
         $limit = $input->getOption('limit') ?? 20;
         $offset = $input->getOption('offset') ?? 0;
+        $context = $input->getOption('context');
+        $settingClass = 'modSystemSetting';
+        if ($context) {
+            $settingClass = 'modContextSetting';
+        }
         if ($verbose) {
             $output->writeln("Getting settings.");
         }
-        $c = $this->modx->newQuery('modSystemSetting');
+        $c = $this->modx->newQuery($settingClass);
         if ($key) {
             if ($verbose) {
                 $output->writeln("Filtering by key: ".$key);
@@ -40,9 +45,13 @@ class GetList extends Command
             }
             $c->where(['namespace' => $namespace]);
         }
-        $count = $this->modx->getCount('modSystemSetting', $c);
+
+        if ($context) {
+            $c->where(['context_key' => $context]);
+        }
+        $count = $this->modx->getCount($settingClass, $c);
         $c->limit($limit, $offset);
-        $settings = $this->modx->getCollection('modSystemSetting', $c);
+        $settings = $this->modx->getCollection($settingClass, $c);
         $table = new Table($output);
 
         $headers = ['Key', 'Value'];
@@ -56,7 +65,7 @@ class GetList extends Command
         }
         $table->setHeaders($headers);
 
-        /** @var \MODX\Revolution\modSystemSetting $setting */
+        /** @var \MODX\Revolution\modSystemSetting | \MODX\Revolution\modContextSetting $setting */
         $split = ($verbose) ? 60 : 90;
         $idx = 0;
         foreach ($settings as $setting) {

@@ -25,4 +25,14 @@ class Command
     {
         $output->writeln("Invoking Command.");
     }
+
+    public function getCache($key)
+    {
+        return $this->modx->cacheManager->get("cloudcli.$key");
+    }
+
+    public function setCache($key, $value, $ttl = 3600)
+    {
+        return $this->modx->cacheManager->set("cloudcli.$key", $value, $ttl);
+    }
 }

@@ -16,16 +16,28 @@ class Setting extends Command
         $namespace = $input->getOption('namespace') ?? 'core';
         $value = $input->getOption('value');
         $new = $input->getOption('new');
-        $setting = $this->modx->getObject('modSystemSetting', ['key' => $key]);
+        $context = $input->getOption('context');
+        $settingClass = 'modSystemSetting';
+        if ($context) {
+            $settingClass = 'modContextSetting';
+        }
+        $where = ['key' => $key];
+        if ($context) {
+            $where['context_key'] = $context;
+        }
+        $setting = $this->modx->getObject($settingClass, $where);
         if (empty($setting)) {
             if (!$new) {
                 $output->writeln("Setting not found.");
                 return;
             }
-            $setting = $this->modx->newObject('modSystemSetting');
+            $setting = $this->modx->newObject($settingClass);
             $setting->set('key', $key);
             $setting->set('namespace', $namespace);
             $setting->set('area', $area);
+            if ($context) {
+                $setting->set('context_key', $context);
+            }
         }
         $setting->set('value', $value);
         if ($setting->save()) {
