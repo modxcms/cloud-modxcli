@@ -18,7 +18,7 @@ Available commands:
 
 | Command          | Description                                |
 |------------------|--------------------------------------------|
-| completion       | Dump the shell completion script           |
+| about            | [a] Information about this MODX install    |
 | config           | [c] Configure connection to MODX           |
 | help             | Display help for a command                 |
 | list             | List commands                              |
