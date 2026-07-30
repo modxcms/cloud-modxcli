@@ -19,10 +19,10 @@ jobs:
                   cache-dependency-path: docs/package-lock.json
 
             - name: Install dependencies
-              working-directory: _build/docs
+              working-directory: docs
               run: npm ci
             - name: Build website
-              working-directory: _build/docs
+              working-directory: docs
               run: npm run build
 
             - name: Upload Build Artifact
