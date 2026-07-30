@@ -49,7 +49,7 @@ sidebar_position: 3
 | [users:unblock](#usersunblock)       | Unblock a user                             |
 
 -----------
-### about
+### `about`
 #### Description:
 Information about this MODX install
 
@@ -60,7 +60,7 @@ Information about this MODX install
 ```
 
 -----------
-### config
+### `config`
 #### Description:
 Configure connection to MODX
 
@@ -75,7 +75,7 @@ Configure connection to MODX
       --config-key=CONFIG-KEY  
 ```
 -----------
-### help
+### `help`
 #### Description:
 Display help for a command
 
@@ -85,7 +85,7 @@ Display help for a command
 ```
 
 -----------
-### list
+### `list`
 #### Description:
 List all available commands
 
@@ -106,7 +106,7 @@ List all available commands
 
 
 -----------
-### refresh
+### `refresh`
 #### Description:
 Refresh the MODX cache
 
@@ -117,7 +117,7 @@ Refresh the MODX cache
 ```
 
 -----------
-### extras:clean
+### `extras:clean`
 #### Description:
 Cleans all extras that are not installed.
 
@@ -127,7 +127,7 @@ Cleans all extras that are not installed.
 ```
 
 -----------
-### extras:list
+### `extras:list`
 #### Description:
 List all installed extras.
 
@@ -143,7 +143,7 @@ List all installed extras.
 ```
 
 -----------
-### extras:upgrade
+### `extras:upgrade`
 #### Description:
 Upgrades all extras to the latest version.
 
@@ -153,11 +153,11 @@ Upgrades all extras to the latest version.
 ```
 #### Options:
 ```bash
-      --clean
+      --clean  Cleans out old package versions
 ```
 
 ----------
-### plugins:disable
+### `plugins:disable`
 #### Description:
 Disable a plugin
 
@@ -167,7 +167,7 @@ Disable a plugin
 ```
 
 ----------
-### plugins:enable
+### `plugins:enable`
 #### Description:
 Enable a plugin
 
@@ -177,7 +177,7 @@ Enable a plugin
 ```
 
 ----------
-### plugins:list
+### `plugins:list`
 #### Description:
 List plugins
 
@@ -194,7 +194,7 @@ List plugins
 ```
 
 ----------
-### search:find
+### `search:find`
 #### Description:
 Search for a string
 
@@ -221,7 +221,7 @@ Search for a string
 ```
 
 ----------
-### search:replace
+### `search:replace`
 #### Description:
 Search and replace a string
 
@@ -250,7 +250,7 @@ Search and replace a string
 ```
 
 ----------
-### settings:list
+### `settings:list`
 #### Description:
 List all system settings
 
@@ -268,7 +268,7 @@ List all system settings
 ```
 
 ----------
-### settings:set
+### `settings:set`
 #### Description:
 Set the value of a system setting
 
@@ -285,7 +285,7 @@ Set the value of a system setting
 ```
 
 ----------
-### users:list
+### `users:list`
 #### Description:
 List users
 
@@ -303,7 +303,7 @@ List users
 ```
 
 ----------
-### users:activate
+### `users:activate`
 #### Description:
 Activate a user
 
@@ -313,7 +313,7 @@ Activate a user
 ```
 
 ----------
-### users:deactivate
+### `users:deactivate`
 #### Description:
 Deactivate a user
 
@@ -323,7 +323,7 @@ Deactivate a user
 ```
 
 ----------
-### users:block
+### `users:block`
 #### Description:
 Block a user
 
@@ -333,7 +333,7 @@ Block a user
 ```
 
 ----------
-### users:unblock
+### `users:unblock`
 #### Description:
 Unblock a user
 
@@ -343,7 +343,7 @@ Unblock a user
 ```
 
 ----------
-### users:password
+### `users:password`
 #### Description:
 Change a user's password
 
@@ -357,7 +357,7 @@ Change a user's password
 ```
 
 ----------
-### users:create
+### `users:create`
 #### Description:
 Create a new admin user
 
