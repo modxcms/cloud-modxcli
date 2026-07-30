@@ -54,8 +54,10 @@ sidebar_position: 3
 Information about this MODX install
 
 #### Usage:
-about  
-a 
+```bash
+      about  
+      a 
+```
 
 -----------
 ### config
@@ -63,20 +65,24 @@ a
 Configure connection to MODX
 
 #### Usage: 
+```bash
       config [options] 
       c
-
+```
 #### Options:
+```bash
       --core-path=CORE-PATH    
       --config-key=CONFIG-KEY  
-
+```
 -----------
 ### help
 #### Description:
 Display help for a command
 
 #### Usage:
+```bash
       help [command] 
+```
 
 -----------
 ### list
@@ -84,15 +90,19 @@ Display help for a command
 List all available commands
 
 #### Usage:
+```bash
       list
-
+```
 #### Arguments:
+```bash
       namespace         The namespace to list commands for
-
+```
 #### Options
+```bash
       --raw             To output raw command list
       --format=FORMAT   The output format (txt, xml, json, or md) [default: "txt"]
       --short           To skip describing commands' arguments
+```
 
 
 -----------
@@ -101,8 +111,10 @@ List all available commands
 Refresh the MODX cache
 
 #### Usage:
+```bash
       refresh
       r
+```
 
 -----------
 ### extras:clean
@@ -110,7 +122,9 @@ Refresh the MODX cache
 Cleans all extras that are not installed.
 
 #### Usage:
+```bash
       extras:clean
+```
 
 -----------
 ### extras:list
@@ -118,12 +132,15 @@ Cleans all extras that are not installed.
 List all installed extras.
 
 #### Usage:
+```bash
       extras:list [options]
-
+```
 #### Options:
+```bash
       --updates-only    
       --limit=LIMIT      [default: 20]
       --offset=OFFSET    [default: 0]
+```
 
 -----------
 ### extras:upgrade
@@ -131,10 +148,13 @@ List all installed extras.
 Upgrades all extras to the latest version.
 
 #### Usage:
+```bash
       extras:upgrade [options]
-
+```
 #### Options:
+```bash
       --clean
+```
 
 ----------
 ### plugins:disable
@@ -142,7 +162,9 @@ Upgrades all extras to the latest version.
 Disable a plugin
 
 #### Usage:
+```bash
       plugins:disable [name-or-id]
+```
 
 ----------
 ### plugins:enable
@@ -150,7 +172,9 @@ Disable a plugin
 Enable a plugin
 
 #### Usage:
+```bash
       plugins:enable [name-or-id]
+```
 
 ----------
 ### plugins:list
@@ -158,13 +182,16 @@ Enable a plugin
 List plugins
 
 #### Usage:
+```bash
       plugins:list [options]
-
+```
 #### Options:
+```bash
       --show-inactive    
       --sort=SORT         [default: "name"]
       --limit=LIMIT       [default: 20]
       --offset=OFFSET     [default: 0]
+```
 
 ----------
 ### search:find
@@ -172,9 +199,11 @@ List plugins
 Search for a string
 
 #### Usage:
+```bash
       search:find [options] [--] [query]
-
+```
 #### Options:
+```bash
       -c, --chunks                     Search in chunks
       --chunk-fields=CHUNK-FIELDS      
       -p, --plugins                    Search in plugins
@@ -189,6 +218,7 @@ Search for a string
       --tv-fields=TV-FIELDS            
       --limit=LIMIT                    [default: 20]
       --offset=OFFSET                  [default: 0]
+```
 
 ----------
 ### search:replace
@@ -196,9 +226,11 @@ Search for a string
 Search and replace a string
 
 #### Usage:
+```bash
       search:replace [options] [--] [query]
-
+```
 #### Options:
+```bash
       --replace=REPLACE                
       --regex=REGEX                    
       -c, --chunks                     Search in chunks
@@ -215,6 +247,7 @@ Search and replace a string
       --tv-fields=TV-FIELDS            
       --limit=LIMIT                    [default: 20]
       --offset=OFFSET                  [default: 0]
+```
 
 ----------
 ### settings:list
@@ -222,14 +255,17 @@ Search and replace a string
 List all system settings
 
 #### Usage:
+```bash
       settings:list [options] [--] [key]
-
+```
 #### Options:
+```bash
       --namespace=NAMESPACE  
       --area=AREA            
       --context=CONTEXT      
       --limit=LIMIT          [default: 20]
       --offset=OFFSET        [default: 0]
+```
 
 ----------
 ### settings:set
@@ -237,13 +273,16 @@ List all system settings
 Set the value of a system setting
 
 #### Usage:
+```bash
       settings:set [options] [--] [key] [value]
-
+```
 #### Options:
+```bash
       --namespace=NAMESPACE  [default: "core"]
       --area=AREA            [default: "default"]
       --context=CONTEXT      
       --new                  
+```
 
 ----------
 ### users:list
@@ -251,14 +290,17 @@ Set the value of a system setting
 List users
 
 #### Usage:
+```bash
       users:list [options]
-
+```
 #### Options:
+```bash
       --active-only    
       --sort=SORT       [default: "username"]
       --username=USERNAME
       --limit=LIMIT     [default: 20]
       --offset=OFFSET   [default: 0]
+```
 
 ----------
 ### users:activate
@@ -266,7 +308,9 @@ List users
 Activate a user
 
 #### Usage:
+```bash
       users:activate [name-or-id]
+```
 
 ----------
 ### users:deactivate
@@ -274,7 +318,9 @@ Activate a user
 Deactivate a user
 
 #### Usage:
+```bash
       users:deactivate [name-or-id]
+```
 
 ----------
 ### users:block
@@ -282,7 +328,9 @@ Deactivate a user
 Block a user
 
 #### Usage:
+```bash
       users:block [name-or-id]
+```
 
 ----------
 ### users:unblock
@@ -290,7 +338,9 @@ Block a user
 Unblock a user
 
 #### Usage:
+```bash
       users:unblock [name-or-id]
+```
 
 ----------
 ### users:password
@@ -298,10 +348,13 @@ Unblock a user
 Change a user's password
 
 #### Usage:
+```bash
       users:password [name-or-id] [password] [options]
-
+```
 #### Options:
+```bash
       --reset
+```
 
 ----------
 ### users:create
@@ -309,9 +362,12 @@ Change a user's password
 Create a new admin user
 
 #### Usage:
+```bash
       users:create [options]
-
+```
 #### Options:
+```bash
       --email=EMAIL        
       --username=USERNAME  
-      --password=PASSWORD  -
+      --password=PASSWORD  
+```
